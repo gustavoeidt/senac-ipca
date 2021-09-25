@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Select, MenuItem } from "@material-ui/core";
 import { ipcaData } from "./../../data/ipcaData";
-import "./styles.css";
 
-const IpcaSelect = () => {
+const IpcaSelect = ({ className, handleChangeYear }) => {
   // variables
   const getYearFromDate = (month) => {
     return month.data.substr(month.data.length - 4);
@@ -25,12 +24,13 @@ const IpcaSelect = () => {
 
   const handleChange = (year) => {
     setSelectedYear(year);
+    handleChangeYear(year);
   };
 
   // render
   return (
     <Select
-      className="select"
+      className={className}
       value={selectedYear}
       onChange={(elem) => handleChange(elem.target.value)}
     >

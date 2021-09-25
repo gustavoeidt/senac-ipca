@@ -1,16 +1,22 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { ipcaData } from "./../../data/ipcaData";
-import "./styles.css";
+import { themeColors } from "../../theme/themeColors";
 
-const IpcaGraphic = () => {
+const IpcaGraphic = ({ className, selectedYear }) => {
+  const filteredData = ipcaData.filter((item) => {
+    const regex = `[0-9]{2}/[0-9]{2}/${selectedYear}`;
+    return item.data.match(regex);
+  });
+
   const data = {
-    labels: ipcaData.map((item) => item.data),
+    labels: filteredData.map((item) => item.data),
     datasets: [
       {
-        label: "IPCA",
-        data: ipcaData.map((item) => item.valor),
+        label: `IPCA do ano ${selectedYear}`,
+        data: filteredData.map((item) => item.valor),
         borderWidth: 1,
+        backgroundColor: [themeColors.purple.hex],
       },
     ],
   };
@@ -27,6 +33,6 @@ const IpcaGraphic = () => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return <Bar data={data} options={options} className={className} />;
 };
 export default IpcaGraphic;
