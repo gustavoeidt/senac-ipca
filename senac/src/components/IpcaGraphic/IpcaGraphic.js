@@ -3,6 +3,7 @@ import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { IPCA_URL } from "../../config/constants";
 import { themeColors } from "../../theme/themeColors";
+import { getMonth } from "../../utils/convertDate";
 
 const IpcaGraphic = ({ className, selectedYear }) => {
   const [ipcaData, setIpcaData] = useState([]);
@@ -21,7 +22,7 @@ const IpcaGraphic = ({ className, selectedYear }) => {
   });
 
   const data = {
-    labels: filteredData.map((item) => item.data),
+    labels: filteredData.map((item) => getMonth(item.data)),
     datasets: [
       {
         label: `IPCA do ano ${selectedYear}`,
