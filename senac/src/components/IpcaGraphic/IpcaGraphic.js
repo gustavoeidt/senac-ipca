@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
-import { ipcaData } from "./../../data/ipcaData";
+import axios from "axios";
+import { IPCA_URL } from "../../config/constants";
 import { themeColors } from "../../theme/themeColors";
 
 const IpcaGraphic = ({ className, selectedYear }) => {
+  const [ipcaData, setIpcaData] = useState([]);
+
+  useEffect(() => {
+    if (ipcaData.length === 0) {
+      axios.get(IPCA_URL).then((response) => {
+        setIpcaData(response.data);
+      });
+    }
+  }, [ipcaData.length]);
+
   const filteredData = ipcaData.filter((item) => {
     const regex = `[0-9]{2}/[0-9]{2}/${selectedYear}`;
     return item.data.match(regex);
